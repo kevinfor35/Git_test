@@ -2,7 +2,7 @@ name: Daily Fruit Report
 
 on:
   schedule:
-    - cron: "20 4 23 5 *"
+    - cron: "30 4 * * *"
   workflow_dispatch:
 
 permissions:
