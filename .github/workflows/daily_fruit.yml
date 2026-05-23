@@ -1,0 +1,30 @@
+name: Daily Fruit Report
+
+on:
+  schedule:
+    - cron: "20 4 23 5 *"
+  workflow_dispatch:
+
+jobs:
+  daily-task:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run daily task
+        run: python scripts/daily_task.py
+
+      - name: Commit and push log
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add daily_log.txt
+          git diff --cached --quiet || git commit -m "chore: 每日水果报告 $(date +'%Y-%m-%d')"
+          git push
